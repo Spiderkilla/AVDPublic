@@ -1,4 +1,4 @@
-# AVDPublic
+---
 description: This template creates a DC with 1 Vnet and 2 Subnets.
 page_type: sample
 products:
