@@ -117,7 +117,12 @@
     "variables": {
         "nicName": "[concat(parameters('vmName'),'-nic')]",
         "nsgName": "[concat('AVDLABS','-nsg')]",
-        "publicIPAddressName": "[concat(parameters('vmName'),'-pubip')]"
+        "publicIPAddressName": "[concat(parameters('vmName'),'-pubip')]",
+        "resourceTags": {
+            "DeployedWith": "ARM Template",
+            "Project": "AVDLABS",
+            "CreatedBy": "SI"
+        }
 
     },
 
@@ -127,11 +132,7 @@
             "apiVersion": "2023-04-01",
             "name": "[variables('nsgName')]",
             "location": "[parameters('location')]",
-            "tags": {
-                "DeployedWith": "ARM Template",
-                "Project": "AVDLABS",
-                "CreatedBy": "SI"
-            },
+            "tags": "[variables('resourceTags')]",
             "properties": {
                 "securityRules": [
                     {
@@ -156,11 +157,7 @@
             "apiVersion": "2021-05-01",
             "name": "[parameters('virtualNetworkName')]",
             "location": "[parameters('location')]",
-            "tags": {
-                "DeployedWith": "ARM Template",
-                "Project": "AVDLABS",
-                "CreatedBy": "SI"
-            },
+            "tags": "[variables('resourceTags')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups',variables('nsgName'))]"
             ],
@@ -197,11 +194,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[variables('publicIPAddressName')]",
             "location": "[parameters('location')]",
-            "tags": {
-                "DeployedWith": "ARM Template",
-                "Project": "AVDLABS",
-                "CreatedBy": "SI"
-            },
+            "tags": "[variables('resourceTags')]",
             "sku": {
                 "name": "Standard"
             },
@@ -216,11 +209,7 @@
             "apiVersion": "2021-05-01",
             "name": "[variables('nicName')]",
             "location": "[parameters('location')]",
-            "tags": {
-                "DeployedWith": "ARM Template",
-                "Project": "AVDLABS",
-                "CreatedBy": "SI"
-            },
+            "tags": "[variables('resourceTags')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
@@ -246,11 +235,7 @@
             "apiVersion": "2021-07-01",
             "name": "[parameters('vmName')]",
             "location": "[parameters('location')]",
-            "tags": {
-                "DeployedWith": "ARM Template",
-                "Project": "AVDLABS",
-                "CreatedBy": "SI"
-            },
+            "tags": "[variables('resourceTags')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             ],
@@ -296,11 +281,7 @@
             "name": "[concat(parameters('vmName'), '/CustomScriptExtension')]",
             "apiVersion": "2020-06-01",
             "location": "[parameters('location')]",
-            "tags": {
-                "DeployedWith": "ARM Template",
-                "Project": "AVDLABS",
-                "CreatedBy": "SI"
-            },
+            "tags": "[variables('resourceTags')]",
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
             ],
