@@ -57,15 +57,16 @@ param imageSku string = '2022-datacenter-g2'
 var nicName = '${vmName}-nic'
 var nsgName = 'AVDLABS-nsg'
 var publicIPAddressName = '${vmName}-pubip'
+var resourceTags = {
+  DeployedWith: 'ARM Template'
+  Project: 'AVDLABS'
+  CreatedBy: 'SI'
+}
 
 resource nsg 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
   name: nsgName
   location: location
-  tags: {
-    DeployedWith: 'ARM Template'
-    Project: 'AVDLABS'
-    CreatedBy: 'SI'
-  }
+  tags: resourceTags
   properties: {
     securityRules: [
       {
@@ -89,11 +90,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-05-01' = {
   name: virtualNetworkName
   location: location
-  tags: {
-    DeployedWith: 'ARM Template'
-    Project: 'AVDLABS'
-    CreatedBy: 'SI'
-  }
+  tags: resourceTags
   properties: {
     addressSpace: {
       addressPrefixes: [
@@ -126,11 +123,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-05-01' = {
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
   name: publicIPAddressName
   location: location
-  tags: {
-    DeployedWith: 'ARM Template'
-    Project: 'AVDLABS'
-    CreatedBy: 'SI'
-  }
+  tags: resourceTags
   sku: {
     name: 'Standard'
   }
@@ -143,11 +136,7 @@ resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2023-04-01' = {
 resource nic 'Microsoft.Network/networkInterfaces@2021-05-01' = {
   name: nicName
   location: location
-  tags: {
-    DeployedWith: 'ARM Template'
-    Project: 'AVDLABS'
-    CreatedBy: 'SI'
-  }
+  tags: resourceTags
   properties: {
     ipConfigurations: [
       {
@@ -171,11 +160,7 @@ resource nic 'Microsoft.Network/networkInterfaces@2021-05-01' = {
 resource vm 'Microsoft.Compute/virtualMachines@2021-07-01' = {
   name: vmName
   location: location
-  tags: {
-    DeployedWith: 'ARM Template'
-    Project: 'AVDLABS'
-    CreatedBy: 'SI'
-  }
+  tags: resourceTags
   properties: {
     hardwareProfile: {
       vmSize: vmSize
@@ -218,11 +203,7 @@ resource vmName_CustomScriptExtension 'Microsoft.Compute/virtualMachines/extensi
   parent: vm
   name: 'CustomScriptExtension'
   location: location
-  tags: {
-    DeployedWith: 'ARM Template'
-    Project: 'AVDLABS'
-    CreatedBy: 'SI'
-  }
+  tags: resourceTags
   properties: {
     publisher: 'Microsoft.Compute'
     type: 'CustomScriptExtension'
