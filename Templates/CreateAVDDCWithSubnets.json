@@ -258,7 +258,7 @@
                     "osDisk": {
                         "createOption": "FromImage",
                         "managedDisk": {
-                            "storageAccountType": "StandardSSD_LRS" // This specifies the disk type as Standard SSD  
+                            "storageAccountType": "StandardSSD_LRS"
                         }
                     }
                 },
