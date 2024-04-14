@@ -120,8 +120,7 @@
         "publicIPAddressName": "[concat(parameters('vmName'),'-pubip')]",
         "resourceTags": {
             "DeployedWith": "ARM Template",
-            "Project": "AVDLABS",
-            "CreatedBy": "SI"
+            "Project": "AVDLABS"
         }
 
     },
