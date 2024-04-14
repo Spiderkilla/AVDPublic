@@ -58,9 +58,8 @@ var nicName = '${vmName}-nic'
 var nsgName = 'AVDLABS-nsg'
 var publicIPAddressName = '${vmName}-pubip'
 var resourceTags = {
-  DeployedWith: 'ARM Template'
-  Project: 'AVDLABS'
-  CreatedBy: 'SI'
+  DeployedWith: 'Bicep Template'
+  Project: 'AVDLABS
 }
 
 resource nsg 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
