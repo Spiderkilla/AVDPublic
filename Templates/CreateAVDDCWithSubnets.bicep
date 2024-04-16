@@ -1,7 +1,7 @@
 @description('Region of the deployment')
 param location string = resourceGroup().location
 
-@description('Domain name for Active Directory, ex: tenant.onmicrosoft.com')
+@description('Domain name for Active Directory, ex: mydomain.local')
 param domainName string
 
 @description('Username for the Virtual Machine admin.')
@@ -16,6 +16,14 @@ param PublicIP string
 
 @description('Name of the Virtual Machine.')
 param vmName string = 'avdlabdc01'
+
+@description('description')
+@allowed([
+  'Standard SSD'
+  'Premium SSD'
+  'Standard HDD'
+])
+param osDiskType string = 'Standard SSD'
 
 @description('Size of the Virtual Machine.')
 param vmSize string = 'Standard_B2ms'
@@ -54,12 +62,17 @@ param SessionHost_Subnet_Prefix string = '10.5.2.0/24'
 ])
 param imageSku string = '2022-datacenter-g2'
 
+var storageAccountType = ((osDiskType == 'Standard HDD')
+  ? 'Standard_LRS'
+  : ((osDiskType == 'Standard SSD')
+      ? 'StandardSSD_LRS'
+      : ((osDiskType == 'Premium SSD') ? 'Premium_LRS' : 'StandardSSD_LRS')))
 var nicName = '${vmName}-nic'
 var nsgName = 'AVDLABS-nsg'
 var publicIPAddressName = '${vmName}-pubip'
 var resourceTags = {
-  DeployedWith: 'Bicep Template'
-  Project: 'AVDLABS
+  DeployedWith: 'ARM Template'
+  Project: 'AVDLABS'
 }
 
 resource nsg 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
@@ -179,7 +192,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2021-07-01' = {
       osDisk: {
         createOption: 'FromImage'
         managedDisk: {
-          storageAccountType: 'StandardSSD_LRS'
+          storageAccountType: storageAccountType
         }
       }
     }
