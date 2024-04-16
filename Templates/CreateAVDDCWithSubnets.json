@@ -13,7 +13,7 @@
         "domainName": {
             "type": "string",
             "metadata": {
-                "description": "Domain name for Active Directory, ex: tenant.onmicrosoft.com"
+                "description": "Domain name for Active Directory, ex: mydomain.local"
             }
         },
         "adminUsername": {
@@ -41,13 +41,14 @@
                 "description": "Name of the Virtual Machine."
             }
         },
-        "managedDisk": {
+        "osDiskType": {
             "type": "string",
-            "defaultValue": "StandardSSD_LRS",
+            "defaultValue": "Standard SSD",
             "allowedValues": [
-                "StandardSSD_LRS",
-                "Standard_LRS",
-                "Premium_LRS"
+                "Standard SSD",
+                "Premium SSD",
+                "Standard HDD"
+
             ],
             "metadata": {
                 "description": "description"
@@ -126,6 +127,7 @@
     },
 
     "variables": {
+        "storageAccountType": "[if(equals(parameters('osDiskType'), 'Standard HDD'), 'Standard_LRS', if(equals(parameters('osDiskType'), 'Standard SSD'), 'StandardSSD_LRS', if(equals(parameters('osDiskType'), 'Premium SSD'), 'Premium_LRS', 'StandardSSD_LRS')))]",
         "nicName": "[concat(parameters('vmName'),'-nic')]",
         "nsgName": "[concat('AVDLABS','-nsg')]",
         "publicIPAddressName": "[concat(parameters('vmName'),'-pubip')]",
@@ -268,7 +270,7 @@
                     "osDisk": {
                         "createOption": "FromImage",
                         "managedDisk": {
-                            "storageAccountType": "[parameters('managedDisk')]"
+                            "storageAccountType": "[variables('storageAccountType')]"
                         }
                     }
                 },
